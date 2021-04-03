@@ -1,0 +1,8 @@
+// 对该模块的描述
+description = "spring学习模块"
+
+dependencies {
+    // 添加对spring-context的依赖
+    implementation(project(":spring-context"))
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
