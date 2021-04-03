@@ -7,7 +7,8 @@ pluginManagement {
 
 plugins {
 	id "com.gradle.enterprise" version "3.5.1"
-	id "io.spring.ge.conventions" version "0.0.7"
+	//注释如下内容，解决授权问题 ：A build scan was not published as you have not authenticated with server 'ge.spring.io'
+	// id "io.spring.ge.conventions" version "0.0.7"
 }
 
 include "spring-aop"
