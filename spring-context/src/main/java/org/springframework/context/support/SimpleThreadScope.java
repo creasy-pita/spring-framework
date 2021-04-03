@@ -63,7 +63,7 @@ public class SimpleThreadScope implements Scope {
 				}
 			};
 
-
+	//应该时request scope 使用
 	@Override
 	public Object get(String name, ObjectFactory<?> objectFactory) {
 		Map<String, Object> scope = this.threadScope.get();

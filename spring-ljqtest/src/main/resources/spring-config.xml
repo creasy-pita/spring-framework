@@ -3,4 +3,16 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="userService" class="com.creasypita.springtest.UserServiceImpl"></bean>
+	<bean id="a" class="com.creasypita.springtest.A" scope="prototype" lazy-init="false" >
+		<property name="b" ref="b"/>
+		<property name="name" value="aaa"/>
+	</bean>
+	<bean id="b" class="com.creasypita.springtest.B" scope="prototype" lazy-init="false" >
+		<property name="c" ref="c"/>
+		<property name="name" value="bbb"/>
+	</bean>
+	<bean id="c" class="com.creasypita.springtest.C" scope="prototype" lazy-init="false" >
+		<property name="a" ref="a"/>
+		<property name="name" value="ccc"/>
+	</bean>
 </beans>

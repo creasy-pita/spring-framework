@@ -370,6 +370,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						throw new IllegalStateException("No Scope registered for scope name '" + scopeName + "'");
 					}
 					try {
+						//不同的scope实现了内部调用objectfactory方法创建
+						//比如 simpleThreadScope应该时request scope时使用
 						Object scopedInstance = scope.get(beanName, () -> {
 							beforePrototypeCreation(beanName);
 							try {
