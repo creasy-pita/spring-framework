@@ -35,6 +35,7 @@ import static org.mockito.BDDMockito.*;
  * @author Adrian Colyer
  * @author Rod Johnson
  * @author Chris Beams
+ * creasypita ClassPathXml配置形式的aop 测试
  */
 public class AfterAdviceBindingTests {
 
@@ -49,11 +50,11 @@ public class AfterAdviceBindingTests {
 	public void setup() throws Exception {
 		ClassPathXmlApplicationContext ctx =
 				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
-		AdviceBindingTestAspect afterAdviceAspect = (AdviceBindingTestAspect) ctx.getBean("testAspect");
 
 		testBeanProxy = (ITestBean) ctx.getBean("testBean");
 		assertTrue(AopUtils.isAopProxy(testBeanProxy));
 
+		AdviceBindingTestAspect afterAdviceAspect = (AdviceBindingTestAspect) ctx.getBean("testAspect");
 		// we need the real target too, not just the proxy...
 		testBeanTarget = (TestBean) ((Advised) testBeanProxy).getTargetSource().getTarget();
 

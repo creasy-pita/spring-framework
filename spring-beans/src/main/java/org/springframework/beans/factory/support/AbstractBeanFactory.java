@@ -247,6 +247,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		// 从缓存中或者实例工厂中获取 Bean 对象
 		// Eagerly check singleton cache for manually registered singletons.
+		//creasypita： 测试 AdviceBindingTestAspect 时发现ctx.getBean("testAspect")时
+		//会加载多个bean，包括：AdviceBindingTestAspect类及内部的多个PointCut(会以interceptor类来处理)
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {

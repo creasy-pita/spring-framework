@@ -34,6 +34,7 @@ import org.springframework.lang.Nullable;
  *
  * @author Rod Johnson
  * @author Rob Harrop
+ * creasypita : aop advisor 也是一个BeanPostProcessor
  */
 @SuppressWarnings("serial")
 public class DefaultAdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator implements BeanNameAware {

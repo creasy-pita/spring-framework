@@ -413,6 +413,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 配置和其他的初始化后添加一些自己的逻辑处理，
 		// 那么请使用该接口，这个接口给与了用户充足的权限去更改或者扩展 Spring，
 		// 是我们对 Spring 进行扩展和增强处理一个必不可少的接口。
+		//getBeanPostProcessors()  会拿到advisor
+		//advisor是如何被获取到AbstractBeanFactory#beanPostProcessors List<BeanPostProcessor>? 以及如何初始化的呢
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			//获取定义的 BeanPostProcessor ，然后分别调用其 #postProcessBeforeInitialization
 			//进行自定义的业务处理
