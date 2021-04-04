@@ -344,6 +344,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 
 		// Create proxy if we have advice.
+		// todo creasypita 需要搞懂：拦截器列表如何创建的，动态代理创建过程
 		//这里会过滤出当前beanname需要的advice(会用拦截器interceptor来处理)
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
 		if (specificInterceptors != DO_NOT_PROXY) {
