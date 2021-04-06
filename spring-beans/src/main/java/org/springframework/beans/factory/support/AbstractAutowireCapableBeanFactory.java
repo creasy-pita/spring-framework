@@ -409,15 +409,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throws BeansException {
 
 		Object result = existingBean;
+		/*
 		// creasypita 如果我们想要在 Spring 容器完成 Bean 的实例化，
 		// 配置和其他的初始化后添加一些自己的逻辑处理，
 		// 那么请使用该接口，这个接口给与了用户充足的权限去更改或者扩展 Spring，
-		// 是我们对 Spring 进行扩展和增强处理一个必不可少的接口。
+		// 是我们对 Spring 进行扩展和aop增强处理一个必不可少的接口。
 		//getBeanPostProcessors()  会拿到advisor
 		//advisor是如何被获取到AbstractBeanFactory#beanPostProcessors List<BeanPostProcessor>? 以及如何初始化的呢
+		*/
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
-			//获取定义的 BeanPostProcessor ，然后分别调用其 #postProcessBeforeInitialization
-			//进行自定义的业务处理
+			/*
+			  获取定义的 BeanPostProcessor ，然后分别调用其 #postProcessBeforeInitialization
+			  进行自定义的业务处理
+			  加入aop增加逻辑请看BeanPostProcessor实现类 AbstractAutoProxyCreator
+			*/
 			Object current = processor.postProcessBeforeInitialization(result, beanName);
 			if (current == null) {
 				return result;
@@ -1778,9 +1783,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object wrappedBean = bean;
 		// <2> 后处理器的before
 		if (mbd == null || !mbd.isSynthetic()) {
-			//todo creasypita 这里也有BeanPostProcessor，
-			// 它与AbstractAutowireCapableBeanFactory#createBean中
-			// 的resolveBeforeInstantiation()中的BeanPostProcessor处理有什么不同
+			/*
+			  todo creasypita 这里也有BeanPostProcessor，
+			  它与AbstractAutowireCapableBeanFactory#createBean中
+			  的resolveBeforeInstantiation()中的BeanPostProcessor处理有什么不同
+			  aop 织入到目标方法的逻辑
+			*/
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
