@@ -197,8 +197,13 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			// Get the interception chain for this method.
 			/*
 			* creasypita 获取适合当前方法的拦截器链
-			* 对象包括了拦截器及(会处理方法表达式匹配功能的)matcher
+			* 返回的类型即实现了<1>拦截器接口<1>也继承了通知类的功能，Advice 内部也有处理方法表达式匹配功能的matcher
+			* 也就是说该类型整合了两个类的功能
+			* <1>aop相关的拦截器接口实现   比如 MethodBeforeAdviceInterceptor 会在调用
+			* todo 具体aspect类中的通知逻辑 如何转化出MethodBeforeAdviceInterceptor；
+			* @see AdviceBindingTestAspect#oneIntArg 是一个before通知如何解析成一个MethodBeforeAdviceInterceptor
 			* 拦截器链执行过程中会执行匹配，方法（而不是类）级别匹配通过的拦截器才会被执行，不通过则跳过当前拦截器的执行
+			* chain是在动态代理的方法被调用时动态产生，虽然产生chain的过程使用了缓存，还是增加了很多处理代码，这也是灵活带来的效率的牺牲
 			* */
 			List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass);
 
