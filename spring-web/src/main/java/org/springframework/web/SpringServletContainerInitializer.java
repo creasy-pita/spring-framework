@@ -108,6 +108,14 @@ import org.springframework.util.ReflectionUtils;
  * @since 3.1
  * @see #onStartup(Set, ServletContext)
  * @see WebApplicationInitializer
+ * creasypita
+ * Tomcat、Jetty 启动，则会被 ContextLoaderListener 监听到，
+ * 从而调用 #contextInitialized(ServletContextEvent event) 方法，
+ * 初始化 Root WebApplicationContext 容器
+ * 1.SPI机制：tomcat启动时会通过SPI的机制加载所有包下面的META-INF/services/javax.servlet.ServletContainerInitializer，读取里面的内容（里面是一个实现了ServletContainerInitializer的类全路径）。此时tomcat就会实例化该全路径的类，然后调用onStartup()这就是spring和tomcat整合的入口，这种spi机制使用的非常广泛，比如springboot原理、数据库驱动等
+ * 2.onStartup方法是读取类上的@HandlerTypes里面的接口的所有实现类，然后调用实现类的onStartup方法
+ * 比如 {@link io.undertow.servlet.core.DeploymentManagerImpl#deploy()}
+ * 会调用这里的 {@link #onStartup(Set, ServletContext)}
  */
 @HandlesTypes(WebApplicationInitializer.class)
 public class SpringServletContainerInitializer implements ServletContainerInitializer {
