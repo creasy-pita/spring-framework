@@ -1003,6 +1003,10 @@ public abstract class FrameworkServlet extends HttpServletBean implements Applic
 		initContextHolders(request, localeContext, requestAttributes);
 
 		try {
+			//creasypita <7> 执行真正的逻辑  方法由继承的子类实现
+			/**
+			 * @see DispatcherServlet#doService(HttpServletRequest, HttpServletResponse)
+			 */
 			doService(request, response);
 		}
 		catch (ServletException | IOException ex) {

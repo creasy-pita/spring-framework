@@ -404,6 +404,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return initializeBean(beanName, existingBean, null);
 	}
 
+	/**
+	 * @see org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator#postProcessBeforeInitialization(Object, String)
+	 * @param existingBean the existing bean instance
+	 * @param beanName the name of the bean, to be passed to it if necessary
+	 * (only passed to {@link BeanPostProcessor BeanPostProcessors};
+	 * can follow the {@link #ORIGINAL_INSTANCE_SUFFIX} convention in order to
+	 * enforce the given instance to be returned, i.e. no proxies etc)
+	 * @return
+	 * @throws BeansException
+	 */
 	@Override
 	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
 			throws BeansException {
@@ -422,6 +432,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			  获取定义的 BeanPostProcessor ，然后分别调用其 #postProcessBeforeInitialization
 			  进行自定义的业务处理
 			  加入aop增加逻辑请看BeanPostProcessor实现类 AbstractAutoProxyCreator
+
 			*/
 			Object current = processor.postProcessBeforeInitialization(result, beanName);
 			if (current == null) {
@@ -518,7 +529,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			// <3> 实例化的前置处理  creasypita
 			// 给 BeanPostProcessors 一个机会用来返回一个代理类而不是真正的类实例
-			// AOP 的功能就是基于这个地方
+			// todo AOP的功能并不在这里 而是在AbstractAutowireCapableBeanFactory#initializeBean中
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
