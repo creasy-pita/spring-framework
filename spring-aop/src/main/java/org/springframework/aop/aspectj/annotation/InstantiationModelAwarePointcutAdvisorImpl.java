@@ -146,6 +146,9 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 	}
 
 	private Advice instantiateAdvice(AspectJExpressionPointcut pointcut) {
+
+		// 获取实际aspect bean的 factory作为参数传入，后续会在拦截器invoke方法使用到
+		// 参考AbstractAspectJAdvice:invokeAdviceMethodWithGivenArgs
 		Advice advice = this.aspectJAdvisorFactory.getAdvice(this.aspectJAdviceMethod, pointcut,
 				this.aspectInstanceFactory, this.declarationOrder, this.aspectName);
 		return (advice != null ? advice : EMPTY_ADVICE);

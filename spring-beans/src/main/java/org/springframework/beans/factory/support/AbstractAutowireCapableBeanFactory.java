@@ -1798,7 +1798,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			  todo creasypita 这里也有BeanPostProcessor，
 			  它与AbstractAutowireCapableBeanFactory#createBean中
 			  的resolveBeforeInstantiation()中的BeanPostProcessor处理有什么不同
-			  aop 织入到目标方法的逻辑
 			*/
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
@@ -1812,7 +1811,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					(mbd != null ? mbd.getResourceDescription() : null),
 					beanName, "Invocation of init method failed", ex);
 		}
-		// <2> 后处理器的after
+		// <2> 后处理器的after todo 发现生成aop动态代理是在这里生成
+		//aop 织入到目标方法的逻辑
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
