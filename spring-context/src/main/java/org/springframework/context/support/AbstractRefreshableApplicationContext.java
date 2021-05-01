@@ -127,6 +127,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
 			customizeBeanFactory(beanFactory);
+			/*
+			⭐⭐⭐加载bean定义文件，来源包括xml、注解、java 配置等
+			creasypita
+			todo 确定如下描述： 如果这里是spring boot 的调用spring容器启动，会有通过springbootapplition主类的注解来解析开启spring boot自动配置的过程
+			*/
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
 		}

@@ -41,6 +41,7 @@ import org.springframework.beans.BeansException;
  * @since 06.07.2003
  * @see BeanPostProcessor
  * @see PropertyResourceConfigurer
+ * 比如  bean 属性中 使用{$java.data.url}等，在beanfactory使用beandefinition之前填充真实的java.data.url值
  */
 @FunctionalInterface
 public interface BeanFactoryPostProcessor {
