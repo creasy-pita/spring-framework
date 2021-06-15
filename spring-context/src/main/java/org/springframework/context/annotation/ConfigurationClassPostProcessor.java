@@ -12,6 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * creasypita @configuration 注解的处理  实现方式就是通过ConfigurationClassPostProcessor作为一个Beanfactory的后置处理器实现
+ *
  */
 
 package org.springframework.context.annotation;
@@ -305,6 +307,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		}
 
 		// Parse each @Configuration class
+		/*
+		creasypita @coinfiguration注释 会有嵌套的情况，需要递归解析
+		*/
 		ConfigurationClassParser parser = new ConfigurationClassParser(
 				this.metadataReaderFactory, this.problemReporter, this.environment,
 				this.resourceLoader, this.componentScanBeanNameGenerator, registry);
