@@ -128,6 +128,8 @@ class CglibAopProxy implements AopProxy, Serializable {
 		if (config.getAdvisors().length == 0 && config.getTargetSource() == AdvisedSupport.EMPTY_TARGET_SOURCE) {
 			throw new AopConfigException("No advisors and no TargetSource specified");
 		}
+//		creasypita config 中有targetsource, config中的advisor,advice实现了MethodInterceptor接口
+//		所以可以 cglib的 target 和 MethodInterceptor已经具备
 		this.advised = config;
 		this.advisedDispatcher = new AdvisedDispatcher(this.advised);
 	}
@@ -186,6 +188,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					enhancer.setUseCache(false);
 				}
 			}
+			// creasypita cgliaopproxy核心逻辑之一
 			enhancer.setSuperclass(proxySuperClass);
 			enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(this.advised));
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
