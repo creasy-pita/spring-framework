@@ -489,8 +489,10 @@ public class DispatcherServlet extends FrameworkServlet {
 
 	/**
 	 * This implementation calls {@link #initStrategies}.
+	 *
 	 */
 	@Override
+	// creasypita FrameworkServlet.onRefresh会调用到这里
 	protected void onRefresh(ApplicationContext context) {
 		initStrategies(context);
 	}
@@ -503,6 +505,7 @@ public class DispatcherServlet extends FrameworkServlet {
 		initMultipartResolver(context);
 		initLocaleResolver(context);
 		initThemeResolver(context);
+		// 初始化 HandlerMappings
 		initHandlerMappings(context);
 		initHandlerAdapters(context);
 		initHandlerExceptionResolvers(context);
@@ -1229,6 +1232,8 @@ public class DispatcherServlet extends FrameworkServlet {
 	@Nullable
 	protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
 		if (this.handlerMappings != null) {
+//			 creasypita 不同类型的HandlerMapping会用不同的处理方式
+//			比如 RequestMappingHandlerMapping 负责处理 RequestMapping注解的类方法
 			for (HandlerMapping mapping : this.handlerMappings) {
 				HandlerExecutionChain handler = mapping.getHandler(request);
 				if (handler != null) {
