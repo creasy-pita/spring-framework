@@ -160,6 +160,7 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 	 * @return the configured transaction attribute, or {@code null} if none was found
 	 */
 	@Nullable
+	// creasypit  解析事务注解
 	protected TransactionAttribute determineTransactionAttribute(AnnotatedElement element) {
 		for (TransactionAnnotationParser annotationParser : this.annotationParsers) {
 			TransactionAttribute attr = annotationParser.parseTransactionAnnotation(element);
