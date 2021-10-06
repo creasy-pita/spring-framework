@@ -44,6 +44,7 @@ public class TransactionManagementConfigurationSelector extends AdviceModeImport
 	 * respectively.
 	 */
 	@Override
+	// creasypita 负责定义外部加入spring容器的配置类
 	protected String[] selectImports(AdviceMode adviceMode) {
 		switch (adviceMode) {
 			case PROXY:

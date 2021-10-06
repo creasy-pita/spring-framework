@@ -150,6 +150,7 @@ public abstract class TransactionSynchronizationManager {
 	 */
 	@Nullable
 	private static Object doGetResource(Object actualKey) {
+		//数据库连接信息，从Threadlocal中获取，是线程级缓存
 		Map<Object, Object> map = resources.get();
 		if (map == null) {
 			return null;
