@@ -349,10 +349,10 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			// Use defaults if no transaction definition given.
 			definition = new DefaultTransactionDefinition();
 		}
-		//第一次事务进入时会忽略
+		//当前有事务 - 内部会根据不同传播行为处理不同，还有挂起等其他操作
+		//第一次事务进入时会跳过
 		if (isExistingTransaction(transaction)) {
 			// Existing transaction found -> check propagation behavior to find out how to behave.
-			// 处理已存在的事务，挂起等其他操作
 			return handleExistingTransaction(definition, transaction, debugEnabled);
 		}
 
@@ -366,7 +366,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			throw new IllegalTransactionStateException(
 					"No existing transaction found for transaction marked with propagation 'mandatory'");
 		}
-		//第一次事务进入，以下三种方式执行逻辑一样
+		//当前没有事务 （也就是第一次事务进入），以下三种方式执行逻辑一样
 		else if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_REQUIRED ||
 				definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_REQUIRES_NEW ||
 				definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NESTED) {
@@ -389,6 +389,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				throw ex;
 			}
 		}
+		//彻底不需要事务
 		else {
 			// Create "empty" transaction: no actual transaction, but potentially synchronization.
 			if (definition.getIsolationLevel() != TransactionDefinition.ISOLATION_DEFAULT && logger.isWarnEnabled()) {
