@@ -932,6 +932,13 @@ public class RestTemplate extends InterceptingHttpAccessor implements RestOperat
 								requestHeaders.forEach((key, values) -> httpHeaders.put(key, new ArrayList<>(values)));
 							}
 							logBody(requestBody, requestContentType, genericConverter);
+							/** creasypita   Write an given object to the given output message
+							 requestBody:给到的对象
+							 requestBodyType:对象的 类型
+							 httpRequest：output message写入到httpRequest
+
+							 GenericHttpMessageConverter的实现类 比如 {@link MappingJackson2HttpMessageConverter}  完成
+							*/
 							genericConverter.write(requestBody, requestBodyType, requestContentType, httpRequest);
 							return;
 						}

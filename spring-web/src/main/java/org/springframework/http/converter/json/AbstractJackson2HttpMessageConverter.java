@@ -339,7 +339,7 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 				objectWriter = objectWriter.with(this.ssePrettyPrinter);
 			}
 			objectWriter.writeValue(generator, value);
-
+			//creasypita 将对象序列化(转化为二进制)输出到 JsonGenerator（后续会设值到 Httprequest 类型对象的body中）
 			writeSuffix(generator, object);
 			generator.flush();
 		}
