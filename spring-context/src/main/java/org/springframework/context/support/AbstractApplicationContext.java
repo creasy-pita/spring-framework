@@ -516,48 +516,79 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
+			//第一步：容器刷新前的准备，设置上下文状态，获取属性，验证必要的属性等
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			/*
+			第二步：获取新的beanFactory，销毁原有beanFactory、为每个bean生成BeanDefinition等,注意此处是获取新的，销毁旧的，
+			 这就是刷新的意义(Spring容器里通过BeanDefinition对象来表示Bean，BeanDefinition描述了Bean的配置信息。)
+			*/
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			//第三步：配置标准的beanFactory，设置ClassLoader，设置SpEL表达式解析器等
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				/*
+				* 第四步：在所有的beanDenifition加载完成之后，bean实例化之前执行。
+				* 比如在beanfactory加载完成所有的bean后，想修改其中某个bean的定义，
+				* 或者对beanFactory做一些其他的配置，就可以在子类中对beanFactory进行后置处理。
+				* */
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
 				// creasypita   Instantiate and invoke all registered BeanFactoryPostProcessor beans
+				//第五步：实例化并调用所有注册的beanFactory后置处理器（实现接口BeanFactoryPostProcessor的bean）
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				/*
 				后续的registerBeanPostProcessors initMessageSource initApplicationEventMulticaster registerListeners用于
-				bean生命周期，比如bean实例化、填充属性、初始化、得到完整bean中需要  观察监听器，多勃起，bean增加类的准备
+				bean生命周期，比如bean实例化、填充属性、初始化、得到完整bean中需要  观察监听器，多播器，bean增加类的准备
+               //第六步：实例化和注册beanFactory中扩展了BeanPostProcessor的bean。
+                //例如： AutowiredAnnotationBeanPostProcessor(处理被@Autowired注解修饰的bean并注入)
+                //RequiredAnnotationBeanPostProcessor(处理被@Required注解修饰的方法)
+                //CommonAnnotationBeanPostProcessor(处理@PreDestroy、@PostConstruct、@Resource等多个注解的作用)等。
+
 				 */
 
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
-				//国际化
+				//第七步：初始化国际化工具类MessageSource
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				//第八步：初始化应用事件广播器。这是观察者模式的典型应用。我们知道观察者模式由主题Subject和Observer组成。
+				// 广播器相当于主题Subject，其包含多个监听器。当主题发生变化时会通知所有的监听器。初始化应用消息广播器，并放入"ApplicationEventMulticaster" Bean中
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//第九步：这个方法在AnnotationApplicationContex上下文中没有实现，
+				// 留给子类来初始化其他的Bean，是个模板方法，在容器刷新的时候可以自定义逻辑（子类自己去实现逻辑），不同的Spring容器做不同的事情
 				onRefresh();
 
 				// Check for listener beans and register them.
+				//第十步：注册监听器，并且广播early application events,也就是早期的事件
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
 				// 单例对象加载
+				//第十一步：初始化剩下的单例（非懒加载的单例类）（并invoke BeanPostProcessors）
+				//实例化所有剩余的（非懒加载）单例Bean。（也就是我们自己定义的那些Bean）
+				//比如invokeBeanFactoryPostProcessors方法中根据各种注解解析出来的类，在这个时候都会被初始化，扫描的@Bean之类的，
+				//实例化的过程各种BeanPostProcessor开始起作用
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				//第十二步：完成刷新过程，通知生命周期处理器lifecycleProcessor完成刷新过程，同时发出ContextRefreshEvent通知别人
+				//refresh做完之后需要做的其他事情
+				//清除上下文资源缓存（如扫描中的ASM元数据）
+				//初始化上下文的生命周期处理器，并刷新（找出Spring容器中实现了Lifecycle接口的bean并执行start()方法）。
+				//发布ContextRefreshedEvent事件告知对应的ApplicationListener进行响应的操作
 				finishRefresh();
 			}
 
