@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Created by lujq on 3/31/2021.
  */
-public class Bootstrap {
+public class ClassPathXmlApplicationContextTest {
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-config.xml");
 //		UserService userService = (UserService) applicationContext.getBean("userService");

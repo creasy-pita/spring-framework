@@ -1128,6 +1128,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				if (targetType != null) {
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
+						/*
+						* 通过spring提供BeanPostProcessor的扩展点来完成aop增强
+						* 如果有aop切面，List中会产生AbstractAutoProxyCreator类，
+						* 调用AbstractAutoProxyCreator：postProcessAfterInitialization会进入spring aop增强处理的逻辑
+						* */
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
 					}
 				}
