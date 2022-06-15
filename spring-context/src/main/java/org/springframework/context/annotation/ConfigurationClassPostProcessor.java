@@ -308,7 +308,8 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 
 		// Parse each @Configuration class
 		/*
-		creasypita @coinfiguration注释 会有嵌套的情况，需要递归解析
+		通过ConfigurationClassParser取到@Configuration中的bean定义
+		creasypita @coinfiguration注释 会有嵌套的情况，ConfigurationClassParser中的内部parse有递归解析
 		*/
 		ConfigurationClassParser parser = new ConfigurationClassParser(
 				this.metadataReaderFactory, this.problemReporter, this.environment,
@@ -329,6 +330,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 						registry, this.sourceExtractor, this.resourceLoader, this.environment,
 						this.importBeanNameGenerator, parser.getImportRegistry());
 			}
+			// reader注册解析出的beanDefinitions
 			this.reader.loadBeanDefinitions(configClasses);
 			alreadyParsed.addAll(configClasses);
 
