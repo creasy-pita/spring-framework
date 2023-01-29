@@ -16,4 +16,6 @@
 		<property name="a" ref="a"/>
 		<property name="name" value="ccc"/>
 	</bean>
+	<bean id="mySmartLifecycle" class="com.creasypita.springtest.MySmartLifecycle"/>
+
 </beans>

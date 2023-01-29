@@ -3,12 +3,9 @@ package com.creasypita.springtest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * Created by lujq on 3/31/2021.
- */
-public class ClassPathXmlApplicationContextTest {
+public class MySmartLifecycleTest {
 	public static void main(String[] args) {
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-config.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-config.xml");
 //		UserService userService = (UserService) applicationContext.getBean("userService");
 //		A a = (A) applicationContext.getBean("a");
 //		B b = (B) applicationContext.getBean("b");
@@ -21,6 +18,5 @@ public class ClassPathXmlApplicationContextTest {
 
 		UserService userService = (UserService) ((CreasyApplicationUtil) applicationContext.getBean("creasyUtil")).getBean("userService");
 		System.out.println(userService.getName("Creasy","pita ya"));
-		applicationContext.stop();
 	}
 }
